@@ -8,10 +8,10 @@ import GlobalContextProvider from "../ContextHooks/GlobalContextProvider";
 
 // imges
 import Image0 from '../Assets/0.jpg'
-import Image1 from '../Assets/0.jpg'
-import Image2 from '../Assets/0.jpg'
-import Image3 from '../Assets/0.jpg'
-import Image4 from '../Assets/0.jpg'
+import Image1 from '../Assets/1.jpg'
+import Image2 from '../Assets/2.jpg'
+import Image3 from '../Assets/3.jpg'
+import Image4 from '../Assets/4.jpg'
 
 
 // global veriable
@@ -135,7 +135,7 @@ const Home = () => {
                     }}
                 >
                     <img
-                        src={`${Image0}`}
+                        src={`${Image1}`}
                         className="img_inner fleft"
                     />
                     <div className="extra_wrapper">

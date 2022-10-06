@@ -6,6 +6,9 @@ import React, { useEffect, useState } from "react";
 // lib
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+// image
+import Like from '../Assets/like.png'
+
 // css
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -22,6 +25,7 @@ const Artist = () => {
     //---------- state
 
     const [artistData, setArtistData] = useState({});
+    const [albums, setAlbums] = useState([]);
     const [loading, setLoadig] = useState(false);
 
     const {
@@ -55,6 +59,8 @@ const Artist = () => {
         if (appStateObject?.artist_image_pocket?.response?.data) {
 
             setArtistData(appStateObject?.artist_image_pocket?.response?.data)
+
+            createAlbumdata(appStateObject?.artist_image_pocket?.response?.data?.albums || [])
             setLoadig(false)
         }
     }, [appStateObject?.artist_image_pocket])
@@ -64,22 +70,99 @@ const Artist = () => {
 
     //---------- render helpers
 
-    const renderSwiper = (data) => {
+    const renderSwiper = ({ data, renderView, image_per_page }) => {
+        return (
+            <Swiper
+                pagination={{ clickable: true }}
+                scrollbar={{ draggable: true }}
+                spaceBetween={50}
+                slidesPerView={image_per_page}
+                onSlideChange={() => console.log('slide change')}
+                onSwiper={(swiper) => console.log(swiper)}
+            >
+                {
+                    renderView(data)
+                }
+
+            </Swiper>
+
+        )
+    }
+
+    const renderItem = (data) => {
 
         return data?.length > 0 && data.map((item, index) => {
 
-            console.log('item', item)
             return (
                 <SwiperSlide
                     key={index}
                 >
                     <img style={{ width: '100%' }} src={item.url} />
+
+                    <div
+                        style={{ display: 'flex', alignItems: 'center', position: 'absolute', bottom: 10, left: 10 }}
+                    >
+                        <img style={{ height: '5%', width: '5%', marginRight: 10 }} src={Like} />
+                        <p style={{ margin: 0, padding: 0, fontSize: 20 }}>
+                            {item.likes}
+                        </p>
+                    </div>
                 </SwiperSlide>
             )
         })
     }
 
-    const renderAlbums = () => {
+    // const renderItem = (data) => {
+
+    //     return data?.length > 0 && data.map((item, index) => {
+
+    //         return (
+    //             <SwiperSlide
+    //                 key={index}
+    //             >
+    //                 <img
+    //                     style={{ width: '100%' }}
+    //                     src={item.url}
+    //                 />
+
+    //                 <div
+    //                     style={{ display: 'flex', alignItems: 'center', position: 'absolute', bottom: 10, left: 10 }}
+    //                 >
+    //                     <img
+    //                         style={{ height: '5%', width: '5%', marginRight: 10 }}
+    //                         src={Like}
+    //                     />
+    //                     <p
+    //                         style={{ margin: 0, padding: 0, fontSize: 20 }}
+    //                     >
+    //                         {item.likes}
+    //                     </p>
+    //                 </div>
+    //             </SwiperSlide>
+    //         )
+    //     })
+    // }
+
+    //---------- contruct data
+
+    const createAlbumdata = (data) => {
+
+        let keys = Object.keys(data);
+
+        let albums_array = []
+
+        keys.forEach((key) => {
+
+
+
+            if (data[key]?.albumcover?.length > 0) {
+
+                albums_array.push(...data[key]?.albumcover)
+            }
+
+        });
+
+        setAlbums(albums_array)
 
     }
 
@@ -94,35 +177,74 @@ const Artist = () => {
         <div className="main">
             <section className="content">
                 <div className="container">
-                    <h1 style={{ textAlign: 'center' }}>{artistData?.name}</h1>
-
-                    <Swiper
-                        pagination={{ clickable: true }}
-                        scrollbar={{ draggable: true }}
-                        spaceBetween={50}
-                        slidesPerView={1}
-                        onSlideChange={() => console.log('slide change')}
-                        onSwiper={(swiper) => console.log(swiper)}
-                    >
-                        {
-                            renderSwiper(artistData?.artistbackground)
-                        }
-
-                    </Swiper>
 
                     <div
                         style={{
-                            marginTop: 50
+                            display: 'flex',
+                            justifyContent: 'center'
                         }}
                     >
 
+                        <img
+                            style={{
+                                height: 100,
+                                width: 300,
+                            }}
+                            src={artistData?.hdmusiclogo?.length > 0 && artistData?.hdmusiclogo[1]?.url}
+                        />
+
                     </div>
+
+                    <section className="content">
+                        <div className="container">
+
+                            {
+                                renderSwiper({ data: artistData?.musicbanner, renderView: renderItem, image_per_page: 1 })
+                            }
+
+                        </div>
+                    </section>
+
+                    <section className="content">
+                        <div className="container">
+
+                            <h1>Artist Images  </h1>
+
+                            {
+                                renderSwiper({ data: artistData?.artistthumb, renderView: renderItem, image_per_page: 3 })
+                            }
+
+                        </div>
+                    </section>
+
+                    <section className="content">
+                        <div className="container">
+
+                            <h1>Musics  </h1>
+
+                            {
+                                renderSwiper({ data: artistData?.artistbackground, renderView: renderItem, image_per_page: 1 })
+                            }
+
+                        </div>
+                    </section>
+
+                    <section className="content">
+                        <div className="container">
+
+                            <h1>Albums  </h1>
+
+                            {
+                                renderSwiper({ data: albums, renderView: renderItem, image_per_page: 2 })
+                            }
+
+                        </div>
+                    </section>
 
                 </div>
             </section>
 
         </div>
-
     );
 };
 
