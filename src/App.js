@@ -1,25 +1,42 @@
-import logo from './logo.svg';
+//---------- imports
+
+// react
+import React, { useEffect, useState, useContext } from "react";
+
+//css
 import './App.css';
 
-function App() {
+// navigation
+import RoutesComponent from "./Route/Routes";
+
+// context
+import { GlobalContextHelper } from './ContextHooks/GlobalContextHelper'
+
+//---------- main app / component
+
+const App = () => {
+
+  //---------- state
+
+  //---------- life cycle
+
+  useEffect(() => {
+
+  }, []);
+
+  //---------- user's action
+
+  //---------- return main view
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <GlobalContextHelper>
+
+      <RoutesComponent />
+
+    </GlobalContextHelper>
   );
-}
+};
+
+//---------- export component
 
 export default App;

@@ -28,6 +28,49 @@
   color: #61dafb;
 }
 
+.blog {
+  margin-top: 65px;
+  border: 1px solid black;
+  padding:10px;
+  overflow: hidden;
+}
+
+
+.img_inner {
+  max-width: 20%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+  margin-bottom: 27px;
+  margin-top: 8px;
+}
+
+@media only screen and (max-width: 1199px) {
+   
+  .extra_wrapper {
+      overflow: visible;
+  } 
+
+  #newsletter {
+      padding-right: 0;
+  }
+
+}
+
+
+.color1 {
+  color: #dd6d8c;
+}
+
+.fleft {
+  float: left;
+  width: auto !important;
+  margin-right: 30px;
+  margin-bottom: 0px;
+  margin-top: 3px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
